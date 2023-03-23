@@ -1,0 +1,28 @@
+fragment MarkdownRemarkConnectionFields on MarkdownRemarkConnection {
+  totalCount
+  nodes {
+    ...MarkdownRemarkFields
+  }
+  pageInfo {
+    ...PageInfoFields
+  }
+}
+
+fragment MarkdownRemarkFields on MarkdownRemark {
+  id
+  html
+  timeToRead
+  frontmatter {
+    title
+  }
+}
+
+fragment PageInfoFields on PageInfo {
+  currentPage
+  hasPreviousPage
+  hasNextPage
+  itemCount
+  pageCount
+  perPage
+  totalCount
+}

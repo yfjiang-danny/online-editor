@@ -1,0 +1,48 @@
+query AllMarkdownRemark(
+  $filter: MarkdownRemarkFilterInput
+  $sort: [MarkdownRemarkSortInput]
+  $skip: Int
+  $limit: Int
+) {
+  allMarkdownRemark(filter: $filter, sort: $sort, skip: $skip, limit: $limit) {
+    ...MarkdownRemarkConnectionFields
+  }
+}
+
+query MarkdownRemark(
+  $id: StringQueryOperatorInput
+  $frontmatter: MarkdownRemarkFrontmatterFilterInput
+  $excerpt: StringQueryOperatorInput
+  $rawMarkdownBody: StringQueryOperatorInput
+  $fileAbsolutePath: StringQueryOperatorInput
+  $html: StringQueryOperatorInput
+  $htmlAst: JSONQueryOperatorInput
+  $excerptAst: JSONQueryOperatorInput
+  $headings: MarkdownHeadingFilterListInput
+  $timeToRead: IntQueryOperatorInput
+  $tableOfContents: StringQueryOperatorInput
+  $wordCount: MarkdownWordCountFilterInput
+  $parent: NodeFilterInput
+  $children: NodeFilterListInput
+  $internal: InternalFilterInput
+) {
+  markdownRemark(
+    id: $id
+    frontmatter: $frontmatter
+    excerpt: $excerpt
+    rawMarkdownBody: $rawMarkdownBody
+    fileAbsolutePath: $fileAbsolutePath
+    html: $html
+    htmlAst: $htmlAst
+    excerptAst: $excerptAst
+    headings: $headings
+    timeToRead: $timeToRead
+    tableOfContents: $tableOfContents
+    wordCount: $wordCount
+    parent: $parent
+    children: $children
+    internal: $internal
+  ) {
+    ...MarkdownRemarkFields
+  }
+}
