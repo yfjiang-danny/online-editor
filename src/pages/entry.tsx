@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MarkdownEditor, MarkdownPreview } from "./renderer";
+import { MarkdownEditor, MarkdownPreview } from "../components/renderer";
 
 const IndexPage = () => {
   const [markdown, setMarkdown] = useState("# Hello, world!");
