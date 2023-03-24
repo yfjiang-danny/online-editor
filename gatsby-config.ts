@@ -58,6 +58,7 @@ const config: GatsbyConfig = {
         enableIdentityWidget: true,
       },
     },
+    "gatsby-plugin-netlify",
   ],
 };
 

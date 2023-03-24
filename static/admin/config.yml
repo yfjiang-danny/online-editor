@@ -2,7 +2,8 @@ backend:
   name: git-gateway
   repo: yfjiang.danny/online-editor # your GitHub username and repository name
   branch: main
-  api_root: https://gitlab.com/api/v4
+  # base_url: /.netlify/git/${repo}
+  # api_root: https://gitlab.com/api/v4
 
 # This line should *not* be indented
 publish_mode: editorial_workflow
