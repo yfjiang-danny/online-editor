@@ -1,5 +1,6 @@
 import { graphql } from "gatsby";
 import React from "react";
+import { MarkdownPreview } from "../components/renderer";
 
 export default function BlogPost({ data }) {
   // useEffect(() => {
@@ -9,10 +10,13 @@ export default function BlogPost({ data }) {
   return (
     <div>
       {/* <h1>{post.frontmatter.title}</h1> */}
-      <div
+      {/* <div
         dangerouslySetInnerHTML={{
-          __html: data?.allMarkdownRemark?.nodes[0].html as string,
+          __html: data?.allMarkdownRemark?.nodes[2].html as string,
         }}
+      /> */}
+      <MarkdownPreview
+        value={data?.allMarkdownRemark?.nodes[2].html as string}
       />
     </div>
   );
