@@ -2,7 +2,7 @@ backend:
   name: git-gateway
   repo: yfjiang.danny/online-editor # your GitHub username and repository name
   branch: main
-  # base_url: /.netlify/git/${repo}
+  base_url: /.netlify/git/yfjiang.danny/online-editor/
   # api_root: https://gitlab.com/api/v4
 
 # This line should *not* be indented
