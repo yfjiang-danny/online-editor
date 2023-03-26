@@ -1,11 +1,31 @@
 import { ReactNode } from "@mdx-js/react/lib";
 import React from "react";
+import { PageContext } from "../../templates/post";
+import Header from "../header";
+import Nav from "../nav";
 
-export default function Layout({ children }: { children: ReactNode }) {
+const wrapperStyle: React.CSSProperties = {
+  display: "flex",
+};
+
+const mainStyle: React.CSSProperties = {
+  flex: 1,
+  paddingLeft: "var(--nav-width)",
+};
+
+interface LayoutProps {
+  children: ReactNode;
+  pageContext: PageContext;
+}
+
+export default function Layout({ children, pageContext }: LayoutProps) {
   return (
     <div>
-      <div>Header</div>
-      <main>{children}</main>
+      <Header />
+      <div style={wrapperStyle}>
+        <Nav items={pageContext.navList || []} />
+        <main style={mainStyle}>{children}</main>
+      </div>
     </div>
   );
 }

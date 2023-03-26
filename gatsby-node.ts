@@ -2,6 +2,19 @@ import { GatsbyNode } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 import path from "path";
 
+interface MarkdownRemark {
+  id: string;
+  fields: {
+    slug: string;
+  };
+  frontmatter: {
+    title: string | null;
+    desc: string | null;
+    author: string | null;
+  };
+  html: string;
+}
+
 interface MdxNode {
   id: string;
 
@@ -17,13 +30,19 @@ export const createPages: GatsbyNode["createPages"] = async ({
   const { createPage } = actions;
 
   const result = await graphql<{
-    allMdx: { nodes: MdxNode[] };
+    allMarkdownRemark: { nodes: MarkdownRemark[] };
   }>(
     `
-      query AllMdx {
-        allMdx {
+      query AllMarkdownRemark {
+        allMarkdownRemark {
           nodes {
             id
+            frontmatter {
+              title
+              desc
+              author
+            }
+            html
             fields {
               slug
             }
@@ -37,13 +56,24 @@ export const createPages: GatsbyNode["createPages"] = async ({
     throw result.errors;
   }
 
-  result.data?.allMdx.nodes.forEach((node) => {
-    const { id, fields } = node;
+  const navList = result.data?.allMarkdownRemark.nodes.map((v) => {
+    const route = !!v.fields.slug ? v.fields.slug : "/";
+    return {
+      route: !!v.fields.slug ? v.fields.slug : "/",
+      name: route == "/" ? "home" : route,
+    };
+  });
+
+  result.data?.allMarkdownRemark.nodes.forEach((node) => {
+    const { fields } = node;
 
     createPage({
-      path: !!fields.slug ? fields.slug : "/",
+      path: !!fields.slug ? `/${fields.slug}` : "/",
       component: path.resolve("./src/templates/post.tsx"),
-      context: node,
+      context: {
+        ...node,
+        navList: navList,
+      },
     });
   });
 };
@@ -55,13 +85,16 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = ({
 }) => {
   const { createNodeField } = actions;
 
-  if (node.internal.type === "Mdx") {
-    const value = createFilePath({ node, getNode });
+  if (node.internal.type === "MarkdownRemark" && node.parent) {
+    const fileNode = getNode(node.parent);
 
-    createNodeField({
-      name: `slug`,
-      node,
-      value: path.basename(value, path.extname(value)),
-    });
+    if (fileNode) {
+      const name = fileNode.name as string;
+      createNodeField({
+        node,
+        name: "slug",
+        value: name == "index" ? "" : `${name}`,
+      });
+    }
   }
 };

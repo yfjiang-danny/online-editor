@@ -1,5 +1,10 @@
 import type { GatsbyConfig } from "gatsby";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: `.env`,
+});
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -42,14 +47,14 @@ const config: GatsbyConfig = {
       },
       __key: "images",
     },
-    {
-      resolve: "gatsby-source-filesystem",
-      options: {
-        name: "pages",
-        path: "./src/pages/",
-      },
-      __key: "pages",
-    },
+    // {
+    //   resolve: "gatsby-source-filesystem",
+    //   options: {
+    //     name: "pages",
+    //     path: "./src/pages/",
+    //   },
+    //   __key: "pages",
+    // },
     {
       resolve: "gatsby-source-filesystem",
       options: {
