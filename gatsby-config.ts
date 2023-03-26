@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from "gatsby";
+import path from "path";
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -16,13 +17,19 @@ const config: GatsbyConfig = {
     {
       resolve: "gatsby-plugin-manifest",
       options: {
-        icon: "src/images/icon.png",
+        icon: "src/images/gatsby.png",
+      },
+    },
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: path.resolve(`./src/components/layout/index.tsx`),
       },
     },
     {
       resolve: "gatsby-plugin-mdx",
       options: {
-        extensions: [".md"],
+        extensions: [".md", ".mdx"],
       },
     },
     "gatsby-plugin-sharp",
