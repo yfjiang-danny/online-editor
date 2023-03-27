@@ -55,6 +55,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
     throw result.errors;
   }
 
+  // Collect nav data for display
   const navList: {
     route: string;
     name: string;
@@ -74,12 +75,15 @@ export const createPages: GatsbyNode["createPages"] = async ({
     }
   });
 
+  // Generate pages
   result.data?.allMarkdownRemark.nodes.forEach((node) => {
     const { fields } = node;
 
     createPage({
       path: !!fields.slug ? `/${fields.slug}` : "/",
+      // Custom pages' template
       component: path.resolve("./src/templates/post.tsx"),
+      // pageContext
       context: {
         ...node,
         navList: navList,
@@ -88,6 +92,8 @@ export const createPages: GatsbyNode["createPages"] = async ({
   });
 };
 
+// Add custom fields.slug
+// Use file name as slug's value, for nav list
 export const onCreateNode: GatsbyNode["onCreateNode"] = ({
   node,
   actions,
