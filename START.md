@@ -190,7 +190,7 @@ _Tip:Gatsby may require nodejs>18.0.0, make sure the version of node matches；I
 
 4. Delete `src/pages` and run `npm start`. Finished md display.
 
-## Add Netlify
+## Netlify
 
 1. Add `src/cms/cms.ts`. Init netlify cms.
 
