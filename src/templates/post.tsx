@@ -1,7 +1,5 @@
 import { MDXProvider } from "@mdx-js/react";
-import { graphql } from "gatsby";
-import React, { useEffect } from "react";
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { NavItemModel } from "../components/nav";
 
 export type PageContext = MarkdownRemark & {
@@ -50,25 +48,3 @@ const MarkdownTemplate: FunctionComponent<MarkdownTemplateProps> = (
 };
 
 export default MarkdownTemplate;
-
-// export const pageQuery = graphql`
-//   query ($id: String!) {
-//     mdx(id: { eq: $id }) {
-//       id
-//       fields {
-//         slug
-//       }
-//       body
-//       parent {
-//         ... on File {
-//           relativePath
-//         }
-//       }
-//       frontmatter {
-//         title
-//         desc
-//         author
-//       }
-//     }
-//   }
-// `;

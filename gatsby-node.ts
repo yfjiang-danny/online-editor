@@ -1,5 +1,4 @@
 import { GatsbyNode } from "gatsby";
-import { createFilePath } from "gatsby-source-filesystem";
 import path from "path";
 
 interface MarkdownRemark {
@@ -56,12 +55,23 @@ export const createPages: GatsbyNode["createPages"] = async ({
     throw result.errors;
   }
 
-  const navList = result.data?.allMarkdownRemark.nodes.map((v) => {
+  const navList: {
+    route: string;
+    name: string;
+  }[] = [];
+  result.data?.allMarkdownRemark.nodes.forEach((v) => {
     const route = !!v.fields.slug ? v.fields.slug : "/";
-    return {
-      route: !!v.fields.slug ? v.fields.slug : "/",
-      name: route == "/" ? "home" : route,
-    };
+    if (route == "/") {
+      navList.unshift({
+        route: "/",
+        name: "home",
+      });
+    } else {
+      navList.push({
+        route: `/${v.fields.slug}`,
+        name: route,
+      });
+    }
   });
 
   result.data?.allMarkdownRemark.nodes.forEach((node) => {
