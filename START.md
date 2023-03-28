@@ -256,12 +256,12 @@ _Tip:Gatsby may require nodejs>18.0.0, make sure the version of node matches；I
 
 4. Deploy to netlify
    1. Login in with github
-   2. Create site with `import an existing project` [netlify](https://app.netlify.com/start) step by step.
+   2. Create site with `import an existing project` step by step [netlify](https://app.netlify.com/start).
    3. [Integration guide](https://docs.netlify.com/integrations/frameworks/gatsby/#app)
 
 ### Q&A
 
-1. Netlify Node version setting: `Site settings > Environment variables > Add a variable` add `NODE_VERSION` `x.x.x`(example: 18.15.0)
+1. Netlify Node version setting: `Site settings > Environment variables > Add a variable` add `NODE_VERSION` `x.x.x`(example: **18.15.0**)
 2. Netlify Identity
    1. `Site settings > Identity > Registration` > `Invite only`
    2. `Integrations > Identity` > `view` > `Invite users`

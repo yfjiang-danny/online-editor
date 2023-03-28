@@ -11,6 +11,7 @@ const wrapperStyle: React.CSSProperties = {
 const mainStyle: React.CSSProperties = {
   flex: 1,
   paddingLeft: "var(--nav-width)",
+  paddingRight: "var(--nav-width)",
 };
 
 interface LayoutProps {

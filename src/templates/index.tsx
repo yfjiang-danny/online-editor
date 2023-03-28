@@ -1,5 +1,4 @@
 import { MDXProvider } from "@mdx-js/react";
-import "highlight.js/styles/github.css";
 import React, { FunctionComponent } from "react";
 import { NavItemModel } from "../components/nav";
 

@@ -1,18 +1,18 @@
 import { Button } from "@mui/material";
-import React from "react";
-import { FC } from "react";
+import React, { FC } from "react";
 import Gatsby from "./gatsby";
 import GithubIcon from "./github-icon";
 import Netlify from "./netlify";
 
 const headerStyle: React.CSSProperties = {
   padding: "0 16px",
-  height: 40,
+  height: "var(--header-height)",
   display: "flex",
   alignItems: "center",
   justifyContent: "end",
   position: "sticky",
   top: 0,
+  backgroundColor: "#fff",
 };
 
 const buttonStyle: React.CSSProperties = {};
