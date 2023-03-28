@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
 import type { GatsbyConfig } from "gatsby";
 import path from "path";
+import { defaultLanguage, languages } from "./src/locales/languages";
+
+const siteUrl = `https://onlineeditor.gatsbyjs.io/`;
 
 dotenv.config({
   path: `.env`,
@@ -9,13 +12,37 @@ dotenv.config({
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `Online Editor`,
-    siteUrl: `https://onlineeditor.gatsbyjs.io/`,
+    siteUrl: siteUrl,
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/locales`,
+        name: `locale`,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-react-i18next",
+      options: {
+        languages,
+        defaultLanguage,
+        siteUrl: siteUrl,
+        i18nextOptions: {
+          // debug: true,
+          fallbackLng: defaultLanguage,
+          supportedLngs: languages,
+          defaultNS: "common",
+          interpolation: {
+            escapeValue: false, // not needed for react as it escapes by default
+          },
+        },
+      },
+    },
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     {

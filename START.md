@@ -259,6 +259,10 @@ _Tip:Gatsby may require nodejs>18.0.0, make sure the version of node matches；I
    2. Create site with `import an existing project` step by step [netlify](https://app.netlify.com/start).
    3. [Integration guide](https://docs.netlify.com/integrations/frameworks/gatsby/#app)
 
+## International
+
+Look at [gatsby-i18n](https://locize.com/blog/gatsby-i18n)
+
 ### Q&A
 
 1. Netlify Node version setting: `Site settings > Environment variables > Add a variable` add `NODE_VERSION` `x.x.x`(example: **18.15.0**)
