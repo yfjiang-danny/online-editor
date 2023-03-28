@@ -1,4 +1,5 @@
 import { MDXProvider } from "@mdx-js/react";
+import "highlight.js/styles/github.css";
 import React, { FunctionComponent } from "react";
 import { NavItemModel } from "../components/nav";
 
@@ -17,6 +18,7 @@ interface MarkdownRemark {
     author: string | null;
   };
   html: string;
+  rawMarkdownBody: string;
 }
 
 interface MdxNode {

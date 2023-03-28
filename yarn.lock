@@ -6707,14 +6707,6 @@ gatsby-parcel-config@^1.8.0:
     "@parcel/transformer-js" "2.8.3"
     "@parcel/transformer-json" "2.8.3"
 
-gatsby-plugin-google-gtag@^5.8.0:
-  version "5.8.0"
-  resolved "https://registry.npmmirror.com/gatsby-plugin-google-gtag/-/gatsby-plugin-google-gtag-5.8.0.tgz#651169bcea35810c4c7784c0c6a765c1919c66fc"
-  integrity sha512-ClvmFTkia/NWNUYbO3VGCstch/hUjIxVuFR9/qtByAm4fO9cW7xnqsguqM2GM++FXXwzuGwdySVkdAtfDlYVWQ==
-  dependencies:
-    "@babel/runtime" "^7.20.13"
-    minimatch "^3.1.2"
-
 gatsby-plugin-image@^3.8.0:
   version "3.8.0"
   resolved "https://registry.npmmirror.com/gatsby-plugin-image/-/gatsby-plugin-image-3.8.0.tgz#291294c6065a1cffd4e58d2a1208281b8582d85f"
@@ -6886,6 +6878,15 @@ gatsby-react-router-scroll@^6.8.0:
   dependencies:
     "@babel/runtime" "^7.20.13"
     prop-types "^15.8.1"
+
+gatsby-remark-prismjs@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.npmmirror.com/gatsby-remark-prismjs/-/gatsby-remark-prismjs-7.8.0.tgz#18bbe029ed2a8fe068cf6d4123321fb0076a3962"
+  integrity sha512-hIaoxOXD+hWbRjAzwixQ1Vga7pvZ5QiF2BaJfU2on10wGmzNPP9tz+P4iAlYxgAySHdKK/5r1x/BgULpwdVSAw==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    parse-numeric-range "^1.2.0"
+    unist-util-visit "^2.0.3"
 
 gatsby-script@^2.8.0:
   version "2.8.0"
@@ -11046,6 +11047,11 @@ parse-latin@^4.0.0:
     unist-util-modify-children "^2.0.0"
     unist-util-visit-children "^1.0.0"
 
+parse-numeric-range@^1.2.0:
+  version "1.3.0"
+  resolved "https://registry.npmmirror.com/parse-numeric-range/-/parse-numeric-range-1.3.0.tgz#7c63b61190d61e4d53a1197f0c83c47bb670ffa3"
+  integrity sha512-twN+njEipszzlMJd4ONUYgSfZPDxgHhT9Ahed5uTigpQn90FggW4SA/AIPq/6a149fTbE9qBEcSwE3FAEp6wQQ==
+
 parse-path@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmmirror.com/parse-path/-/parse-path-7.0.0.tgz#605a2d58d0a749c8594405d8cc3a2bf76d16099b"
@@ -11523,6 +11529,11 @@ pretty-error@^4.0.0:
   dependencies:
     lodash "^4.17.20"
     renderkid "^3.0.0"
+
+prismjs@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.npmmirror.com/prismjs/-/prismjs-1.29.0.tgz#f113555a8fa9b57c35e637bba27509dcf802dd12"
+  integrity sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==
 
 probe-image-size@^7.2.3:
   version "7.2.3"

@@ -1,6 +1,6 @@
 import { ReactNode } from "@mdx-js/react/lib";
 import React from "react";
-import { PageContext } from "../../templates/post";
+import { PageContext } from "../../templates";
 import Header from "../header";
 import Nav from "../nav";
 

@@ -29,158 +29,158 @@ _Tip:Gatsby may require nodejs>18.0.0, make sure the version of node matches；I
 
    1. Install plugin
 
-   ```bash
-   npm install gatsby-plugin-layout
-   ```
+      ```bash
+      npm install gatsby-plugin-layout
+      ```
 
    2. Add a layout component `./src/components/layout/index.tsx`
 
-   ```tsx
-   // pageContext depend on createPage that is called in gatsby-node.ts
-   export default function Layout({ children, pageContext }) {
-     // Customize component
-     return <div>{children}</div>;
-   }
-   ```
+      ```tsx
+      // pageContext depend on createPage that is called in gatsby-node.ts
+      export default function Layout({ children, pageContext }) {
+        // Customize component
+        return <div>{children}</div>;
+      }
+      ```
 
    3. Add plugin in `gatsby-config.ts`
 
-   ```typescript
-   import path from "path";
-   const config: GatsbyConfig = {
-     // ...
-     plugins: [
-       //...
-       {
-         resolve: `gatsby-plugin-layout`,
-         options: {
-           // Custom layout component by step 2
-           component: path.resolve(`./src/components/layout/index.tsx`),
-         },
-       },
-       // ...
-     ],
-   };
-   ```
+      ```typescript
+      import path from "path";
+      const config: GatsbyConfig = {
+        // ...
+        plugins: [
+          //...
+          {
+            resolve: `gatsby-plugin-layout`,
+            options: {
+              // Custom layout component by step 2
+              component: path.resolve(`./src/components/layout/index.tsx`),
+            },
+          },
+          // ...
+        ],
+      };
+      ```
 
    4. Add custom fields on graphql `gatsby-node.ts`
 
-   ```typescript
-   // Add custom fields.slug
-   // Use file name as slug's value, for nav list
-   export const onCreateNode: GatsbyNode["onCreateNode"] = ({
-     node,
-     actions,
-     getNode,
-   }) => {
-     const { createNodeField } = actions;
+      ```typescript
+      // Add custom fields.slug
+      // Use file name as slug's value, for nav list
+      export const onCreateNode: GatsbyNode["onCreateNode"] = ({
+        node,
+        actions,
+        getNode,
+      }) => {
+        const { createNodeField } = actions;
 
-     if (node.internal.type === "MarkdownRemark" && node.parent) {
-       const fileNode = getNode(node.parent);
+        if (node.internal.type === "MarkdownRemark" && node.parent) {
+          const fileNode = getNode(node.parent);
 
-       if (fileNode) {
-         const name = fileNode.name as string;
-         createNodeField({
-           node,
-           name: "slug",
-           value: name == "index" ? "" : `${name}`,
-         });
-       }
-     }
-   };
-   ```
+          if (fileNode) {
+            const name = fileNode.name as string;
+            createNodeField({
+              node,
+              name: "slug",
+              value: name == "index" ? "" : `${name}`,
+            });
+          }
+        }
+      };
+      ```
 
    5. Define `createPages` in `gatsby-node.ts` to generate dynamic page.
 
-   ```typescript
-   export const createPages: GatsbyNode["createPages"] = async ({
-     graphql,
-     actions,
-   }) => {
-     const { createPage } = actions;
+      ```typescript
+      export const createPages: GatsbyNode["createPages"] = async ({
+        graphql,
+        actions,
+      }) => {
+        const { createPage } = actions;
 
-     // Query all markdown
-     const result = await graphql`
-       query AllMarkdownRemark {
-         allMarkdownRemark {
-           nodes {
-             id
-             frontmatter {
-               title
-               desc
-               author
-             }
-             html
-             fields {
-               slug
-             }
-           }
-         }
-       }
-     `;
+        // Query all markdown
+        const result = await graphql`
+          query AllMarkdownRemark {
+            allMarkdownRemark {
+              nodes {
+                id
+                frontmatter {
+                  title
+                  desc
+                  author
+                }
+                html
+                fields {
+                  slug
+                }
+              }
+            }
+          }
+        `;
 
-     if (result.errors) {
-       throw result.errors;
-     }
+        if (result.errors) {
+          throw result.errors;
+        }
 
-     // Collect data for nav display
-     const navList: {
-       route: string;
-       name: string;
-     }[] = [];
-     result.data?.allMarkdownRemark.nodes.forEach((v) => {
-       const route = !!v.fields.slug ? v.fields.slug : "/";
-       if (route == "/") {
-         navList.unshift({
-           route: "/",
-           name: "home",
-         });
-       } else {
-         navList.push({
-           route: `/${v.fields.slug}`,
-           name: route,
-         });
-       }
-     });
+        // Collect data for nav display
+        const navList: {
+          route: string;
+          name: string;
+        }[] = [];
+        result.data?.allMarkdownRemark.nodes.forEach((v) => {
+          const route = !!v.fields.slug ? v.fields.slug : "/";
+          if (route == "/") {
+            navList.unshift({
+              route: "/",
+              name: "home",
+            });
+          } else {
+            navList.push({
+              route: `/${v.fields.slug}`,
+              name: route,
+            });
+          }
+        });
 
-     // Generate pages
-     result.data?.allMarkdownRemark.nodes.forEach((node) => {
-       const { fields } = node;
+        // Generate pages
+        result.data?.allMarkdownRemark.nodes.forEach((node) => {
+          const { fields } = node;
 
-       createPage({
-         path: !!fields.slug ? `/${fields.slug}` : "/",
-         // Custom pages' template
-         component: path.resolve("./src/templates/post.tsx"),
-         // pageContext
-         context: {
-           ...node,
-           navList: navList,
-         },
-       });
-     });
-   };
-   ```
+          createPage({
+            path: !!fields.slug ? `/${fields.slug}` : "/",
+            // Custom pages' template
+            component: path.resolve("./src/templates/post.tsx"),
+            // pageContext
+            context: {
+              ...node,
+              navList: navList,
+            },
+          });
+        });
+      };
+      ```
 
    6. Create page template `./src/templates/post.tsx`
 
-   ```tsx
-   interface MarkdownTemplateProps {
-     data?: {
-       mdx: MdxNode;
-     };
-     pageContext: PageContext;
-   }
+      ```tsx
+      interface MarkdownTemplateProps {
+        data?: {
+          mdx: MdxNode;
+        };
+        pageContext: PageContext;
+      }
 
-   const MarkdownTemplate: FunctionComponent<MarkdownTemplateProps> = (
-     props: MarkdownTemplateProps
-   ) => {
-     return (
-       <MDXProvider components={{}}>
-         <div dangerouslySetInnerHTML={{ __html: props.pageContext.html }} />
-       </MDXProvider>
-     );
-   };
-   ```
+      const MarkdownTemplate: FunctionComponent<MarkdownTemplateProps> = (
+        props: MarkdownTemplateProps
+      ) => {
+        return (
+          <MDXProvider components={{}}>
+            <div dangerouslySetInnerHTML={{ __html: props.pageContext.html }} />
+          </MDXProvider>
+        );
+      };
+      ```
 
 3. Create `content/posts/index.md`
 
@@ -190,7 +190,7 @@ _Tip:Gatsby may require nodejs>18.0.0, make sure the version of node matches；I
 
 4. Delete `src/pages` and run `npm start`. Finished md display.
 
-## Netlify
+## Netlify [Guide](https://decapcms.org/docs/gatsby/)
 
 1. Add `src/cms/cms.ts`. Init netlify cms.
 
@@ -239,20 +239,20 @@ _Tip:Gatsby may require nodejs>18.0.0, make sure the version of node matches；I
 
    1. Add code to `gatsby-config.ts`
 
-   ```typescript
-   import dotenv from "dotenv";
+      ```typescript
+      import dotenv from "dotenv";
 
-   dotenv.config({
-     path: `.env`,
-   });
-   // ...
-   ```
+      dotenv.config({
+        path: `.env`,
+      });
+      // ...
+      ```
 
    2. Create `.env`
 
-   ```env
-   GATSBY_NETLIFY_REPO=xxx
-   ```
+      ```env
+      GATSBY_NETLIFY_REPO=xxx
+      ```
 
 4. Deploy to netlify
    1. Login in with github

@@ -12,6 +12,7 @@ interface MarkdownRemark {
     author: string | null;
   };
   html: string;
+  rawMarkdownBody: string;
 }
 
 interface MdxNode {
@@ -42,6 +43,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
               author
             }
             html
+            rawMarkdownBody
             fields {
               slug
             }
@@ -82,7 +84,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
     createPage({
       path: !!fields.slug ? `/${fields.slug}` : "/",
       // Custom pages' template
-      component: path.resolve("./src/templates/post.tsx"),
+      component: path.resolve("./src/templates/index.tsx"),
       // pageContext
       context: {
         ...node,
