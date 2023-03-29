@@ -82,7 +82,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
     const { fields } = node;
 
     createPage({
-      path: !!fields.slug ? `/${fields.slug}` : "/",
+      path: !!fields.slug ? `/en/${fields.slug}` : "/",
       // Custom pages' template
       component: path.resolve("./src/templates/index.tsx"),
       // pageContext

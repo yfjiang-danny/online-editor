@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { Link, Trans, useI18next } from "gatsby-plugin-react-i18next";
 import React, { FC } from "react";
 import Gatsby from "./gatsby";
 import GithubIcon from "./github-icon";
@@ -20,11 +21,15 @@ const buttonStyle: React.CSSProperties = {};
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = (pros) => {
+  const { languages, originalPath, t, i18n } = useI18next();
+
   return (
     <div style={headerStyle}>
       <Gatsby />
       <Netlify />
-      <div style={{ flex: 1 }} />
+      <div style={{ flex: 1, textAlign: "center" }}>
+        <Trans i18nKey="title">Online Editor</Trans>
+      </div>
       <Button
         size="small"
         variant="outlined"
@@ -32,6 +37,22 @@ const Header: FC<HeaderProps> = (pros) => {
       >
         <GithubIcon />
       </Button>
+      <ul className="languages">
+        {languages.map((lng) => (
+          <li key={lng}>
+            <Link
+              to={originalPath}
+              language={lng}
+              style={{
+                textDecoration:
+                  i18n.resolvedLanguage === lng ? "underline" : "none",
+              }}
+            >
+              {lng}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

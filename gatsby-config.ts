@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import type { GatsbyConfig } from "gatsby";
 import path from "path";
-import { defaultLanguage, languages } from "./src/locales/languages";
 
 const siteUrl = `https://onlineeditor.gatsbyjs.io/`;
 
@@ -19,30 +18,6 @@ const config: GatsbyConfig = {
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/locales`,
-        name: `locale`,
-      },
-    },
-    {
-      resolve: "gatsby-plugin-react-i18next",
-      options: {
-        languages,
-        defaultLanguage,
-        siteUrl: siteUrl,
-        i18nextOptions: {
-          // debug: true,
-          fallbackLng: defaultLanguage,
-          supportedLngs: languages,
-          defaultNS: "common",
-          interpolation: {
-            escapeValue: false, // not needed for react as it escapes by default
-          },
-        },
-      },
-    },
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     {
@@ -57,12 +32,6 @@ const config: GatsbyConfig = {
         component: path.resolve(`./src/components/layout/index.tsx`),
       },
     },
-    {
-      resolve: "gatsby-plugin-mdx",
-      options: {
-        extensions: [".md", ".mdx"],
-      },
-    },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     {
@@ -73,6 +42,7 @@ const config: GatsbyConfig = {
       },
       __key: "images",
     },
+    // "gatsby-plugin-slug",
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -161,6 +131,38 @@ const config: GatsbyConfig = {
       },
     },
     "gatsby-plugin-netlify",
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/locales`,
+        name: `locale`,
+      },
+    },
+    // {
+    //   resolve: "gatsby-plugin-react-i18next",
+    //   options: {
+    //     path: `${__dirname}/src/locales`,
+    //     aleJsonSourceName: `locale`, // name given to `gatsby-source-filesystem` plugin.
+    //     languages,
+    //     defaultLanguage,
+    //     siteUrl: siteUrl,
+    //     i18nextOptions: {
+    //       // debug: true,
+    //       fallbackLng: defaultLanguage,
+    //       supportedLngs: languages,
+    //       defaultNS: "common",
+    //       interpolation: {
+    //         escapeValue: false, // not needed for react as it escapes by default
+    //       },
+    //     },
+    //     pages: [
+    //       {
+    //         matchPath: "/:lang?/:slug",
+    //         getLanguageFromPath: true,
+    //       },
+    //     ],
+    //   },
+    // },
   ],
 };
 
