@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import type { GatsbyConfig } from "gatsby";
 import path from "path";
+import { defaultLanguage, languages } from "./languages";
 
 const siteUrl = `https://onlineeditor.gatsbyjs.io/`;
 
@@ -42,14 +43,14 @@ const config: GatsbyConfig = {
       },
       __key: "images",
     },
-    // "gatsby-plugin-slug",
     {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "post",
-        path: `${__dirname}/content/posts/`,
+        path: `${__dirname}/content/posts`,
       },
     },
+    // "gatsby-plugin-slug",
     {
       resolve: `gatsby-transformer-remark`,
       options: {
@@ -131,38 +132,46 @@ const config: GatsbyConfig = {
       },
     },
     "gatsby-plugin-netlify",
+    `gatsby-transformer-json`,
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: "gatsby-source-filesystem",
       options: {
-        path: `${__dirname}/src/locales`,
-        name: `locale`,
+        name: "locale",
+        path: `${__dirname}/locales`,
       },
     },
-    // {
-    //   resolve: "gatsby-plugin-react-i18next",
-    //   options: {
-    //     path: `${__dirname}/src/locales`,
-    //     aleJsonSourceName: `locale`, // name given to `gatsby-source-filesystem` plugin.
-    //     languages,
-    //     defaultLanguage,
-    //     siteUrl: siteUrl,
-    //     i18nextOptions: {
-    //       // debug: true,
-    //       fallbackLng: defaultLanguage,
-    //       supportedLngs: languages,
-    //       defaultNS: "common",
-    //       interpolation: {
-    //         escapeValue: false, // not needed for react as it escapes by default
-    //       },
-    //     },
-    //     pages: [
-    //       {
-    //         matchPath: "/:lang?/:slug",
-    //         getLanguageFromPath: true,
-    //       },
-    //     ],
-    //   },
-    // },
+    {
+      resolve: "gatsby-plugin-react-i18next",
+      options: {
+        languages: languages,
+        defaultLanguage,
+        siteUrl: siteUrl,
+        i18nextOptions: {
+          // debug: true,
+          fallbackLng: defaultLanguage,
+          supportedLngs: languages,
+          defaultNS: "common",
+          interpolation: {
+            escapeValue: false, // not needed for react as it escapes by default
+          },
+          keySeparator: false,
+          nsSeparator: false,
+          redirect: false,
+        },
+        // pages: [
+        //   {
+        //     matchPath: "/:lang?/:slug",
+        //     getLanguageFromPath: true,
+        //     excludeLanguages: languages,
+        //   },
+        //   {
+        //     matchPath: "/:lang?",
+        //     // Get default language from `gatsby-config.js`
+        //     getLanguageFromPath: null,
+        //   },
+        // ],
+      },
+    },
   ],
 };
 

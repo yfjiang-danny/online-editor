@@ -1,6 +1,29 @@
 import { GatsbyNode } from "gatsby";
 import path from "path";
 
+// Add custom fields.slug
+// Use file name as slug's value, for nav list
+export const onCreateNode: GatsbyNode["onCreateNode"] = ({
+  node,
+  actions,
+  getNode,
+}) => {
+  const { createNodeField } = actions;
+
+  if (node.internal.type === "MarkdownRemark" && node.parent) {
+    const fileNode = getNode(node.parent);
+
+    if (fileNode) {
+      const name = fileNode.name as string;
+      createNodeField({
+        node,
+        name: "slug",
+        value: name == "index" ? "" : `${name}`,
+      });
+    }
+  }
+};
+
 interface MarkdownRemark {
   id: string;
   fields: {
@@ -82,37 +105,72 @@ export const createPages: GatsbyNode["createPages"] = async ({
     const { fields } = node;
 
     createPage({
-      path: !!fields.slug ? `/en/${fields.slug}` : "/",
+      path: !!fields.slug ? `/${fields.slug}` : "/",
       // Custom pages' template
       component: path.resolve("./src/templates/index.tsx"),
       // pageContext
       context: {
         ...node,
         navList: navList,
+        redirect: false,
+        route: false,
       },
     });
   });
 };
 
-// Add custom fields.slug
-// Use file name as slug's value, for nav list
-export const onCreateNode: GatsbyNode["onCreateNode"] = ({
-  node,
-  actions,
-  getNode,
-}) => {
-  const { createNodeField } = actions;
+interface CreatePageContext extends MarkdownRemark {
+  language: string;
+  i18n: {
+    language: string;
+    languages: string[];
+    defaultLanguage: string;
+    originalPath: string;
+    path: string;
+  };
+}
 
-  if (node.internal.type === "MarkdownRemark" && node.parent) {
-    const fileNode = getNode(node.parent);
+// export const onCreatePage: GatsbyNode["onCreatePage"] = async ({
+//   page,
+//   actions,
+// }) => {
+//   const { createPage, deletePage } = actions;
 
-    if (fileNode) {
-      const name = fileNode.name as string;
-      createNodeField({
-        node,
-        name: "slug",
-        value: name == "index" ? "" : `${name}`,
-      });
-    }
-  }
-};
+//   // Only create one 404 page at /404.html
+//   if (page.path.includes("404")) {
+//     return;
+//   }
+
+//   // First delete the incoming page that was automatically created by Gatsby
+//   // So everything in src/pages/ still runs.
+//   deletePage(page);
+
+//   const pageContext = page.context as unknown as CreatePageContext;
+//   console.log("pageContext", pageContext);
+
+//   // Grab the keys ('en' & 'de') of your translation files
+//   const availableLanguages = (pageContext.i18n.languages || []) as string[];
+
+//   // Remove the leading/trailing slashes from the page path, e.g. => home, about, blog/my-awesome-blog
+//   const pageName = page.path === "/" ? "home" : page.path;
+
+//   // Generate a new page for each available language
+//   availableLanguages.forEach((language) => {
+//     // Combine the pageName with the language-specific file naming convention, e.g. => home/index.en.js
+//     const lang = language ?? pageContext.i18n.defaultLanguage;
+
+//     createPage({
+//       // The new url (e.g. /blog/my-awesome-blog)
+//       path: `/${lang}/${pageName}`,
+//       // Use the original page component for each new page
+//       component: page.component,
+//       // Pass down additional context, if necessary
+//       context: {
+//         ...pageContext,
+//         locale: lang,
+//         routed: false,
+//         originalPath: page.path,
+//       },
+//     });
+//   });
+// };
