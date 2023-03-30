@@ -23,7 +23,7 @@ interface NavProps {
 const Nav: FC<NavProps> = ({ items }) => {
   console.log("items", items);
 
-  const { language } = useI18next();
+  const { language, defaultLanguage } = useI18next();
 
   return (
     <div className="nav" style={divStyle}>
@@ -32,7 +32,11 @@ const Nav: FC<NavProps> = ({ items }) => {
           return (
             <MenuItem key={i}>
               <Link
-                to={`/${language}${v.route}`}
+                to={
+                  language != defaultLanguage
+                    ? `/${language}${v.route}`
+                    : `${v.route}`
+                }
                 style={{ display: "block", width: "100%" }}
               >
                 <ListItemText>{v.name}</ListItemText>
