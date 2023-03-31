@@ -19,7 +19,13 @@ interface LayoutProps {
   pageContext: PageContext;
 }
 
-export default function Layout({ children, pageContext }: LayoutProps) {
+export default function Layout({
+  children,
+  pageContext,
+  ...restProps
+}: LayoutProps) {
+  console.log("restProps", restProps);
+
   return (
     <div>
       <Header />

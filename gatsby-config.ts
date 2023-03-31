@@ -147,15 +147,15 @@ const config: GatsbyConfig = {
         defaultLanguage,
         siteUrl: siteUrl,
         i18nextOptions: {
-          // debug: true,
+          debug: true,
           fallbackLng: defaultLanguage,
           supportedLngs: languages,
           defaultNS: "common",
           interpolation: {
             escapeValue: false, // not needed for react as it escapes by default
           },
-          keySeparator: false,
-          nsSeparator: false,
+          // keySeparator: false,
+          // nsSeparator: false,
           redirect: false,
         },
         // pages: [

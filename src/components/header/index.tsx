@@ -1,5 +1,5 @@
-import { Button } from "@mui/material";
-import { Link, Trans, useI18next } from "gatsby-plugin-react-i18next";
+import { Button, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { Trans, useI18next } from "gatsby-plugin-react-i18next";
 import React, { FC } from "react";
 import Gatsby from "./gatsby";
 import GithubIcon from "./github-icon";
@@ -21,7 +21,11 @@ const buttonStyle: React.CSSProperties = {};
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = (pros) => {
-  const { languages, originalPath, t, i18n } = useI18next();
+  const { language, languages, changeLanguage } = useI18next();
+
+  const handleChange = (event: SelectChangeEvent) => {
+    changeLanguage(event.target.value);
+  };
 
   return (
     <div style={headerStyle}>
@@ -37,22 +41,18 @@ const Header: FC<HeaderProps> = (pros) => {
       >
         <GithubIcon />
       </Button>
-      <ul className="languages">
+      <Select
+        size="small"
+        value={language}
+        onChange={handleChange}
+        style={{ marginLeft: 16 }}
+      >
         {languages.map((lng) => (
-          <li key={lng}>
-            <Link
-              to={originalPath}
-              language={lng}
-              style={{
-                textDecoration:
-                  i18n.resolvedLanguage === lng ? "underline" : "none",
-              }}
-            >
-              {lng}
-            </Link>
-          </li>
+          <MenuItem value={lng} key={lng}>
+            {lng}
+          </MenuItem>
         ))}
-      </ul>
+      </Select>
     </div>
   );
 };
