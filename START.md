@@ -267,6 +267,10 @@ Look at [gatsby-i18n](https://locize.com/blog/gatsby-i18n)
 
 1. Netlify Node version setting: `Site settings > Environment variables > Add a variable` add `NODE_VERSION` `x.x.x`(example: **18.15.0**)
 2. Netlify Identity
+
    1. `Site settings > Identity > Registration` > `Invite only`
    2. `Integrations > Identity` > `view` > `Invite users`
    3. `Site settings > Identity > Services` > github auth
+
+3. `gatsby-plugin-layout` 可以共享到 `createPages` 中使用的 `component` 的 `query` 数据
+4. `gatsby-plugin-react-i18next` 必须在 `createPages` 中使用的 `component` 内执行 `query` 获取 `allLocales`

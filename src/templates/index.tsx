@@ -42,8 +42,6 @@ interface MarkdownTemplateProps {
 const MarkdownTemplate: FunctionComponent<MarkdownTemplateProps> = (
   props: MarkdownTemplateProps
 ) => {
-  console.log("props", props);
-
   return (
     <MDXProvider components={{}}>
       <div dangerouslySetInnerHTML={{ __html: props.pageContext.html }} />

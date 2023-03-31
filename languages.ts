@@ -8,8 +8,6 @@ const languages = readdirSync(join(__dirname, "locales")).filter((fileName) => {
   const joinedPath = join(join(__dirname, "locales"), fileName);
   const isDirectory = lstatSync(joinedPath).isDirectory();
 
-  console.log("isDirectory", isDirectory);
-
   return isDirectory;
 });
 // defaultLanguage as first

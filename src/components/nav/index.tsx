@@ -21,8 +21,6 @@ interface NavProps {
 }
 
 const Nav: FC<NavProps> = ({ items }) => {
-  console.log("items", items);
-
   const { language, defaultLanguage } = useI18next();
 
   return (

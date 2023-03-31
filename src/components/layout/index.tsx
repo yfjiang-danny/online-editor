@@ -24,8 +24,6 @@ export default function Layout({
   pageContext,
   ...restProps
 }: LayoutProps) {
-  console.log("restProps", restProps);
-
   return (
     <div>
       <Header />

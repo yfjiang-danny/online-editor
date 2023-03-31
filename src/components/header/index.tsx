@@ -45,7 +45,7 @@ const Header: FC<HeaderProps> = (pros) => {
         size="small"
         value={language}
         onChange={handleChange}
-        style={{ marginLeft: 16 }}
+        style={{ marginLeft: 16, height: 32 }}
       >
         {languages.map((lng) => (
           <MenuItem value={lng} key={lng}>
