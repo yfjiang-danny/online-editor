@@ -7,7 +7,7 @@ author: "Syntax Highlighting is the meta title tag for this page"
 The following is a code block with JavaScript language syntax highlighting.
 
 ```javascript
-import React from 'react';
+import React from "react";
 ```
 
 Supports multiple languages.
@@ -22,5 +22,5 @@ The following is a code block with diff. Lines with `+` highlighted in green sha
 ## Live Editing example
 
 ```javascript react-live=true
-<button className={'btn btn-default'}>Change my text</button>
+<button className={"btn btn-default"}>Change my text</button>
 ```

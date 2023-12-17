@@ -1,6 +1,28 @@
 import { GatsbyNode } from "gatsby";
-import { createFilePath } from "gatsby-source-filesystem";
 import path from "path";
+
+// Add custom fields.slug
+// Use file name as slug's value, for nav list
+export const onCreateNode: GatsbyNode["onCreateNode"] = ({
+  node,
+  actions,
+  getNode,
+}) => {
+  const { createNodeField } = actions;
+
+  if (node.internal.type === "MarkdownRemark" && node.parent) {
+    const fileNode = getNode(node.parent);
+
+    if (fileNode) {
+      const name = fileNode.name as string;
+      createNodeField({
+        node,
+        name: "slug",
+        value: name == "index" ? "" : `${name}`,
+      });
+    }
+  }
+};
 
 interface MarkdownRemark {
   id: string;
@@ -13,6 +35,7 @@ interface MarkdownRemark {
     author: string | null;
   };
   html: string;
+  rawMarkdownBody: string;
 }
 
 interface MdxNode {
@@ -43,6 +66,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
               author
             }
             html
+            rawMarkdownBody
             fields {
               slug
             }
@@ -56,45 +80,52 @@ export const createPages: GatsbyNode["createPages"] = async ({
     throw result.errors;
   }
 
-  const navList = result.data?.allMarkdownRemark.nodes.map((v) => {
+  // Collect nav data for display
+  const navList: {
+    route: string;
+    name: string;
+  }[] = [];
+  result.data?.allMarkdownRemark.nodes.forEach((v) => {
     const route = !!v.fields.slug ? v.fields.slug : "/";
-    return {
-      route: !!v.fields.slug ? v.fields.slug : "/",
-      name: route == "/" ? "home" : route,
-    };
+    if (route == "/") {
+      navList.unshift({
+        route: "/",
+        name: "home",
+      });
+    } else {
+      navList.push({
+        route: `/${v.fields.slug}`,
+        name: route,
+      });
+    }
   });
 
+  // Generate pages
   result.data?.allMarkdownRemark.nodes.forEach((node) => {
     const { fields } = node;
 
     createPage({
       path: !!fields.slug ? `/${fields.slug}` : "/",
-      component: path.resolve("./src/templates/post.tsx"),
+      // Custom pages' template
+      component: path.resolve("./src/templates/index.tsx"),
+      // pageContext
       context: {
         ...node,
         navList: navList,
+        redirect: false,
+        route: false,
       },
     });
   });
 };
 
-export const onCreateNode: GatsbyNode["onCreateNode"] = ({
-  node,
-  actions,
-  getNode,
-}) => {
-  const { createNodeField } = actions;
-
-  if (node.internal.type === "MarkdownRemark" && node.parent) {
-    const fileNode = getNode(node.parent);
-
-    if (fileNode) {
-      const name = fileNode.name as string;
-      createNodeField({
-        node,
-        name: "slug",
-        value: name == "index" ? "" : `${name}`,
-      });
-    }
-  }
-};
+interface CreatePageContext extends MarkdownRemark {
+  language: string;
+  i18n: {
+    language: string;
+    languages: string[];
+    defaultLanguage: string;
+    originalPath: string;
+    path: string;
+  };
+}

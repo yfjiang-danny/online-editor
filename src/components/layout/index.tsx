@@ -1,6 +1,6 @@
 import { ReactNode } from "@mdx-js/react/lib";
 import React from "react";
-import { PageContext } from "../../templates/post";
+import { PageContext } from "../../templates";
 import Header from "../header";
 import Nav from "../nav";
 
@@ -11,6 +11,7 @@ const wrapperStyle: React.CSSProperties = {
 const mainStyle: React.CSSProperties = {
   flex: 1,
   paddingLeft: "var(--nav-width)",
+  paddingRight: "var(--nav-width)",
 };
 
 interface LayoutProps {
@@ -18,7 +19,11 @@ interface LayoutProps {
   pageContext: PageContext;
 }
 
-export default function Layout({ children, pageContext }: LayoutProps) {
+export default function Layout({
+  children,
+  pageContext,
+  ...restProps
+}: LayoutProps) {
   return (
     <div>
       <Header />

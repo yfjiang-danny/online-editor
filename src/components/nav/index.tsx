@@ -1,7 +1,7 @@
-import { ListItemText, MenuItem, MenuList, styled } from "@mui/material";
+import { ListItemText, MenuItem, MenuList } from "@mui/material";
 import { Link } from "gatsby";
-import React from "react";
-import { FC } from "react";
+import { useI18next } from "gatsby-plugin-react-i18next";
+import React, { FC } from "react";
 
 const divStyle: React.CSSProperties = {
   position: "fixed",
@@ -21,13 +21,22 @@ interface NavProps {
 }
 
 const Nav: FC<NavProps> = ({ items }) => {
+  const { language, defaultLanguage } = useI18next();
+
   return (
     <div className="nav" style={divStyle}>
       <MenuList>
         {items.map((v, i) => {
           return (
             <MenuItem key={i}>
-              <Link to={v.route}>
+              <Link
+                to={
+                  language != defaultLanguage
+                    ? `/${language}${v.route}`
+                    : `${v.route}`
+                }
+                style={{ display: "block", width: "100%" }}
+              >
                 <ListItemText>{v.name}</ListItemText>
               </Link>
             </MenuItem>
