@@ -84,6 +84,7 @@ export const createPages: GatsbyNode["createPages"] = async ({
   const navList: {
     route: string;
     name: string;
+    target?: string;
   }[] = [];
   result.data?.allMarkdownRemark.nodes.forEach((v) => {
     const route = !!v.fields.slug ? v.fields.slug : "/";

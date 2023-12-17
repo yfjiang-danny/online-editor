@@ -14,6 +14,7 @@ const divStyle: React.CSSProperties = {
 export interface NavItemModel {
   route: string;
   name: string;
+  target?: string;
 }
 
 interface NavProps {
@@ -23,12 +24,23 @@ interface NavProps {
 const Nav: FC<NavProps> = ({ items }) => {
   const { language, defaultLanguage } = useI18next();
 
+  const prefix = `/html/methodology`;
+  const navList = [
+    { route: `${prefix}/spring.html`, name: "春", target: "__blank" },
+    { route: `${prefix}/spring_1.html`, name: "春1", target: "__blank" },
+    { route: `${prefix}/summer.html`, name: "夏", target: "__blank" },
+    { route: `${prefix}/autumn.html`, name: "秋", target: "__blank" },
+    { route: `${prefix}/winter.html`, name: "冬", target: "__blank" },
+    { route: `${prefix}/trend.html`, name: "趋势", target: "__blank" },
+    { route: `${prefix}/summary.html`, name: "总结", target: "__blank" },
+  ];
+
   return (
     <div className="nav" style={divStyle}>
       <MenuList>
         {items.map((v, i) => {
           return (
-            <MenuItem key={i}>
+            <MenuItem key={v.route + i}>
               <Link
                 to={
                   language != defaultLanguage
@@ -36,9 +48,23 @@ const Nav: FC<NavProps> = ({ items }) => {
                     : `${v.route}`
                 }
                 style={{ display: "block", width: "100%" }}
+                target={v.target}
               >
                 <ListItemText>{v.name}</ListItemText>
               </Link>
+            </MenuItem>
+          );
+        })}
+        {navList.map((v, i) => {
+          return (
+            <MenuItem key={v.route + i}>
+              <a
+                href={`${v.route}`}
+                style={{ display: "block", width: "100%" }}
+                target={v.target}
+              >
+                <ListItemText>{v.name}</ListItemText>
+              </a>
             </MenuItem>
           );
         })}
